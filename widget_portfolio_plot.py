@@ -405,9 +405,16 @@ fig.update_layout(
         ),
         hovermode="x unified",
         font=dict(size=18),  # Default font size for all text
-        height=700,  # Make plot taller
         margin=dict(l=60, r=20, t=80, b=60),  # Better margins for mobile
         autosize=True,  # Make plot responsive
+        height=500,  # Fixed height for consistent aspect ratio (good for mobile)
     )
 
-st.plotly_chart(fig, use_container_width=True)
+# Use config for responsive display
+config = {
+    'displayModeBar': True,
+    'responsive': True,
+    'displaylogo': False,
+}
+
+st.plotly_chart(fig, use_container_width=True, config=config)
