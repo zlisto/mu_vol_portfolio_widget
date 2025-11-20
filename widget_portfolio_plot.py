@@ -319,16 +319,16 @@ col_display_names = {
 }
 
 html_table = "<div style='overflow-x: auto;'>"
-html_table += "<table class='metrics-table' style='width: 100%; border-collapse: collapse; min-width: 600px;'>"
+html_table += "<table class='metrics-table' style='width: auto; border-collapse: collapse; margin: 0 auto;'>"
 html_table += "<thead><tr>"
-html_table += "<th style='padding: 16px; text-align: left; border: 1px solid #ddd;'>Strategy</th>"
+html_table += "<th style='padding: 8px 12px; text-align: left; border: 1px solid #ddd; white-space: nowrap;'>Strategy</th>"
 for col in metrics_df.columns:
     display_name = col_display_names.get(col, col)
-    html_table += f"<th style='padding: 16px; text-align: left; border: 1px solid #ddd;'>{display_name}</th>"
+    html_table += f"<th style='padding: 8px 12px; text-align: left; border: 1px solid #ddd; white-space: nowrap;'>{display_name}</th>"
 html_table += "</tr></thead><tbody>"
 for idx, row in metrics_df.iterrows():
     html_table += "<tr>"
-    html_table += f"<td style='padding: 16px; font-weight: 600; border: 1px solid #ddd;'>{idx}</td>"
+    html_table += f"<td style='padding: 8px 12px; font-weight: 600; border: 1px solid #ddd; white-space: nowrap;'>{idx}</td>"
     for col, val in row.items():
         # Format as percentage for annualized_returns and max_drawdown
         if col in ["annualized_returns", "max_drawdown"]:
@@ -337,7 +337,7 @@ for idx, row in metrics_df.iterrows():
             formatted_val = f"{val:.2f}"
         else:
             formatted_val = f"{val:.4f}"
-        html_table += f"<td style='padding: 16px; border: 1px solid #ddd;'>{formatted_val}</td>"
+        html_table += f"<td style='padding: 8px 12px; border: 1px solid #ddd; white-space: nowrap;'>{formatted_val}</td>"
     html_table += "</tr>"
 html_table += "</tbody></table></div>"
 
