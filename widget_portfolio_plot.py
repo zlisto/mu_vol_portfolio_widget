@@ -10,6 +10,47 @@ import glob
 
 st.set_page_config(page_title="Crypto Portfolio", layout="wide")
 
+# --- Authentication ---
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+
+if not st.session_state.authenticated:
+    st.title("Login")
+    
+    # Login form with larger fonts
+    st.markdown(
+        """
+        <style>
+        .stTextInput > div > div > input {
+            font-size: 1.3rem !important;
+            padding: 12px !important;
+        }
+        .stButton > button {
+            font-size: 1.4rem !important;
+            padding: 16px 32px !important;
+            min-height: 56px !important;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+    
+    col1, col2, col3 = st.columns([1, 2, 1])
+    with col2:
+        username = st.text_input("Username", key="username_input")
+        password = st.text_input("Password", type="password", key="password_input")
+        
+        if st.button("Login", use_container_width=True):
+            if username == "zlisto" and password == "t1uh9dy1s5r":
+                st.session_state.authenticated = True
+                st.rerun()
+            else:
+                st.error("Invalid username or password")
+    
+    st.stop()
+
+# Main app content (only shown if authenticated)
+
 # ---- Global style tweaks (bigger fonts for mobile) ----
 st.markdown(
     """
