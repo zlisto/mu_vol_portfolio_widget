@@ -170,6 +170,49 @@ st.markdown(
         padding-top: 2rem !important;
         padding-bottom: 2rem !important;
     }
+    
+    /* Metrics table styling */
+    .metrics-table {
+        font-size: 36px !important;
+    }
+    
+    .metrics-table th, .metrics-table td {
+        font-size: 36px !important;
+    }
+    
+    /* Mobile-specific styles */
+    @media (max-width: 768px) {
+        /* Smaller table font on mobile */
+        table, .metrics-table {
+            font-size: 16px !important;
+        }
+        
+        table th, table td, .metrics-table th, .metrics-table td {
+            font-size: 16px !important;
+            padding: 8px 4px !important;
+        }
+        
+        /* Make table scrollable horizontally on mobile */
+        .stDataFrame, .stTable {
+            overflow-x: auto !important;
+            display: block !important;
+        }
+        
+        /* Smaller title on mobile */
+        h1 {
+            font-size: 1.8rem !important;
+        }
+        
+        h2, h3 {
+            font-size: 1.5rem !important;
+        }
+        
+        /* Reduce padding on mobile */
+        .main .block-container {
+            padding-left: 1rem !important;
+            padding-right: 1rem !important;
+        }
+    }
     </style>
     """,
     unsafe_allow_html=True,
@@ -275,25 +318,26 @@ col_display_names = {
     "max_drawdown": "Max Drawdown [%]"
 }
 
-html_table = "<table style='font-size: 36px !important; width: 100%; border-collapse: collapse;'>"
+html_table = "<div style='overflow-x: auto;'>"
+html_table += "<table class='metrics-table' style='width: 100%; border-collapse: collapse; min-width: 600px;'>"
 html_table += "<thead><tr>"
-html_table += "<th style='font-size: 36px !important; padding: 16px; text-align: left; border: 1px solid #ddd;'>Strategy</th>"
+html_table += "<th style='padding: 16px; text-align: left; border: 1px solid #ddd;'>Strategy</th>"
 for col in metrics_df.columns:
     display_name = col_display_names.get(col, col)
-    html_table += f"<th style='font-size: 36px !important; padding: 16px; text-align: left; border: 1px solid #ddd;'>{display_name}</th>"
+    html_table += f"<th style='padding: 16px; text-align: left; border: 1px solid #ddd;'>{display_name}</th>"
 html_table += "</tr></thead><tbody>"
 for idx, row in metrics_df.iterrows():
     html_table += "<tr>"
-    html_table += f"<td style='font-size: 36px !important; padding: 16px; font-weight: 600; border: 1px solid #ddd;'>{idx}</td>"
+    html_table += f"<td style='padding: 16px; font-weight: 600; border: 1px solid #ddd;'>{idx}</td>"
     for col, val in row.items():
         # Format as percentage for annualized_returns and max_drawdown
         if col in ["annualized_returns", "max_drawdown"]:
             formatted_val = f"{val * 100:.2f}%"
         else:
             formatted_val = f"{val:.4f}"
-        html_table += f"<td style='font-size: 36px !important; padding: 16px; border: 1px solid #ddd;'>{formatted_val}</td>"
+        html_table += f"<td style='padding: 16px; border: 1px solid #ddd;'>{formatted_val}</td>"
     html_table += "</tr>"
-html_table += "</tbody></table>"
+html_table += "</tbody></table></div>"
 
 st.markdown(html_table, unsafe_allow_html=True)
 
@@ -338,11 +382,13 @@ fig.update_layout(
         xaxis_title=dict(text="Time", font=dict(size=20)),
         yaxis_title=dict(text="Cumulative Returns [%] (log scale)", font=dict(size=20)),
         xaxis=dict(
-            tickfont=dict(size=18)
+            tickfont=dict(size=18),
+            automargin=True  # Auto-adjust margins to prevent squishing
         ),
         yaxis=dict(
             type="log",
-            tickfont=dict(size=18)
+            tickfont=dict(size=18),
+            automargin=True  # Auto-adjust margins to prevent squishing
         ),
         template="plotly_dark",  # dark background
         legend=dict(
@@ -360,6 +406,8 @@ fig.update_layout(
         hovermode="x unified",
         font=dict(size=18),  # Default font size for all text
         height=700,  # Make plot taller
+        margin=dict(l=60, r=20, t=80, b=60),  # Better margins for mobile
+        autosize=True,  # Make plot responsive
     )
 
 st.plotly_chart(fig, use_container_width=True)
