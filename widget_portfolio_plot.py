@@ -298,9 +298,9 @@ fig.update_layout(
             title_font=dict(size=20),
             font=dict(size=18),
             x=0.99,
-            y=0.99,
+            y=0.01,
             xanchor="right",
-            yanchor="top",
+            yanchor="bottom",
             bgcolor="rgba(0,0,0,0.5)",
             bordercolor="rgba(255,255,255,0.3)",
             borderwidth=1
