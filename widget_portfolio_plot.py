@@ -207,11 +207,22 @@ else:
 # --- Load data ---
 try:
     df = pd.read_csv(filename, index_col=0, parse_dates=True)
-except FileNotFoundError:
+except FileNotFoundError as e:
     st.error(f"File not found: {filename}")
+    st.info("Please ensure the data files are available in the data/ directory.")
+    st.stop()
+except Exception as e:
+    st.error(f"Error loading data: {str(e)}")
     st.stop()
 
 df.fillna(0, inplace=True)
+
+# Check if required columns exist
+required_columns = ["HODL Portfolio", "Signal Portfolio", "BTC"]
+missing_columns = [col for col in required_columns if col not in df.columns]
+if missing_columns:
+    st.error(f"Missing required columns in data file: {', '.join(missing_columns)}")
+    st.stop()
 
 returns_hodl = df["HODL Portfolio"]
 returns_signal = df["Signal Portfolio"]
