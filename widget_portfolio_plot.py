@@ -221,7 +221,7 @@ st.markdown(
 st.title("Crypto Portfolio")
 
 # --- Controls ---
-pairs_options = [5, 10, 20, 30, 40, 50]
+pairs_options = [10, 20, 30, 40, 50]
 npairs_portfolio = st.selectbox(
     "Number of pairs in portfolio",
     pairs_options,
