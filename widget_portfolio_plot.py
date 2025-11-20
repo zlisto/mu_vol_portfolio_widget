@@ -311,11 +311,11 @@ metrics_df = pd.DataFrame(
 ).T
 
 # Create HTML table with large font
-# Map column names to display names
+# Map column names to display names (with line breaks for two-row headers)
 col_display_names = {
-    "annualized_returns": "Annualized Returns [%]",
-    "sharpe_ratio": "Sharpe Ratio",
-    "max_drawdown": "Max Drawdown [%]"
+    "annualized_returns": "Ann.<br>Returns",
+    "sharpe_ratio": "Sharpe<br>Ratio",
+    "max_drawdown": "Max<br>Drawdown"
 }
 
 html_table = "<div style='overflow-x: auto;'>"
@@ -333,6 +333,8 @@ for idx, row in metrics_df.iterrows():
         # Format as percentage for annualized_returns and max_drawdown
         if col in ["annualized_returns", "max_drawdown"]:
             formatted_val = f"{val * 100:.2f}%"
+        elif col == "sharpe_ratio":
+            formatted_val = f"{val:.2f}"
         else:
             formatted_val = f"{val:.4f}"
         html_table += f"<td style='padding: 16px; border: 1px solid #ddd;'>{formatted_val}</td>"
@@ -380,7 +382,7 @@ fig.update_layout(
             font=dict(size=24)
         ),
         xaxis_title=dict(text="Time", font=dict(size=20)),
-        yaxis_title=dict(text="Cumulative Returns [%] (log scale)", font=dict(size=20)),
+        yaxis_title=dict(text="Cumulative Returns [%]", font=dict(size=20)),
         xaxis=dict(
             tickfont=dict(size=18),
             automargin=True  # Auto-adjust margins to prevent squishing
