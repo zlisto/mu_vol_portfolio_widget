@@ -1,0 +1,21 @@
+[server]
+# Automatically reload the app when file changes are detected
+runOnSave = true
+
+# Watch additional files/folders for changes
+fileWatcherType = "auto"
+
+# Enable faster reloads
+headless = false
+
+[runner]
+# Fast reruns - reload immediately on file save
+fastReruns = true
+
+# Magic commands are enabled by default, but we can be explicit
+magicEnabled = true
+
+[client]
+# Show error details in the UI
+showErrorDetails = true
+
